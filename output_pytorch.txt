@@ -1,0 +1,42 @@
+Using: cuda
+Loading data...
+Creating Vocab...
+0.2922196388244629 seconds to load data and create vocab
+Classes: ['SCIENCE', 'HEALTH', 'ENTERTAINMENT', 'BUSINESS', 'SPORTS', 'WORLD', 'TECHNOLOGY', 'NATION']
+Number of classes: 8
+DanModel(
+  (embeddings): Embedding(13012, 300, padding_idx=0)
+  (linear1): Linear(in_features=300, out_features=300, bias=True)
+  (linear2): Linear(in_features=300, out_features=8, bias=True)
+  (classifier): Sequential(
+    (0): Linear(in_features=300, out_features=300, bias=True)
+    (1): ReLU()
+    (2): Dropout(p=0.5, inplace=False)
+    (3): Linear(in_features=300, out_features=8, bias=True)
+  )
+  (_softmax): Softmax(dim=None)
+)
+start epoch 0
+start epoch 1
+start epoch 2
+start epoch 3
+start epoch 4
+start epoch 5
+start epoch 6
+start epoch 7
+start epoch 8
+start epoch 9
+start epoch 10
+start epoch 11
+start epoch 12
+start epoch 13
+start epoch 14
+start epoch 15
+start epoch 16
+start epoch 17
+start epoch 18
+start epoch 19
+start testing:
+
+accuracy 0.492
+3.632667303085327 seconds to train and test the model
