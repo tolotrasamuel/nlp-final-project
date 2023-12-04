@@ -16,3 +16,6 @@ class ActivationLayer(Layer):
     # learning_rate is not used because there is no "learnable" parameters.
     def backward_propagation(self, output_error, learning_rate):
         return self.activation_prime(self.input) * output_error
+
+    def clip_grads(self, max_norm):
+        pass

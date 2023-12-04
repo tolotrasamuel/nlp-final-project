@@ -1,0 +1,7 @@
+Loading data...
+Creating Vocab...
+0.5763719081878662 seconds to load data and create vocab
+Classes: ['SPORTS', 'TECHNOLOGY', 'HEALTH', 'SCIENCE', 'ENTERTAINMENT', 'WORLD', 'NATION', 'BUSINESS']
+Number of classes: 8
+<__main__.DanModel object at 0x7efc88497700>
+start epoch 0

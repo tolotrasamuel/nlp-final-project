@@ -35,3 +35,14 @@ class FCLayer(Layer):
         self.weights -= learning_rate * weights_error
         self.bias -= learning_rate * output_error
         return input_error
+    
+    def clip_grads(self, max_norm):
+        # normalize and clip weights
+        norm = np.linalg.norm(self.weights)
+        if norm > max_norm:
+            self.weights *= max_norm / norm
+
+        # normalize and clip biases
+        norm = np.linalg.norm(self.bias)
+        if norm > max_norm:
+            self.bias *= max_norm / norm
