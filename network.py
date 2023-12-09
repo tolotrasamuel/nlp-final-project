@@ -2,10 +2,11 @@ import os
 import pickle
 
 class Network:
-    def __init__(self):
+    def __init__(self, verbose=False):
         self.layers = []
         self.loss = None
         self.loss_prime = None
+        self.verbose = verbose
 
     # add layer to network
     def add(self, layer):
@@ -33,6 +34,8 @@ class Network:
     def predict_single(self, input_data):
         output = input_data
         for layer in self.layers:
+            if self.verbose:
+                print("forward", output.shape, layer)
             output = layer.forward_propagation(output)
         return output
 

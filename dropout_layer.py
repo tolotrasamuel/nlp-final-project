@@ -50,7 +50,7 @@ class DropoutLayer(Layer):
 		self.mask = np.random.binomial(1, 1 - self.p, size=input_data.shape)
 		return self.input * self.mask * self.scale
 	
-	def backward_propagation(self, output_error):
+	def backward_propagation(self, output_error, learning_rate):
 		return output_error * self.mask * self.scale
 
 	def clip_grads(self, max_norm):

@@ -8,11 +8,14 @@ def tanh_prime(x):
     return 1-np.tanh(x)**2
 
 def relu(x):
-    return np.max([x, 0])
+    return np.maximum(x, 0)
 
 def relu_prime(x):
-    return 1 if x > 0 else 0
+    return np.where(x <= 0, 0, 1)
 
 def softmax(x):
     exps = np.exp(x - np.max(x))
     return exps / np.sum(exps)
+
+def softmax_prime(x):
+    return softmax(x) * (1 - softmax(x))

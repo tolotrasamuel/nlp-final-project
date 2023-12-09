@@ -159,3 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 /news_dataset.zip
+
+keras_experiment/aclImdb/aclImdb_v1.tar.gz
+keras_experiment/aclImdb

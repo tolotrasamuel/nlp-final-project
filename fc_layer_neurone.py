@@ -10,7 +10,7 @@ class FCLayerDetailed(Layer):
     # input_size = number of input neurons
     # output_size = number of output neurons
     def __repr__(self):
-        return f"FCLayer(input_size={self.input_size}, output_size={self.output_size})"
+        return f"FCLayer(input_size={len(self.neurones)}, output_size={self.output_size})"
 
     def __init__(self, input_size, output_size):
         self.output_size = output_size
@@ -36,7 +36,7 @@ class FCLayerDetailed(Layer):
             output.append(output_neurone_val)
         assert len(output) == self.output_size
         self.output = np.array(output)
-        return [self.output]
+        return np.array([self.output])
 
     # for a given output_error=dE / dY derivative of error with respect to output
     # which is equal to dE / dB , the derivative of the error with respect to the bias
@@ -86,4 +86,4 @@ class FCLayerDetailed(Layer):
             self.bias[o] -= learning_rate * backward_output_error[o]
 
 
-        return backward_input_error
+        return np.array(backward_input_error)
