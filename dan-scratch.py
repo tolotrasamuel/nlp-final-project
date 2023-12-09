@@ -219,51 +219,17 @@ def train(args, model, train_data_loader, dev_data_loader, accuracy):
     start = time.time()
     err = 0
 
-    # modify the following code to complete the training funtion
-
     for idx, batch in enumerate(train_data_loader):
-        # question_text = batch['text'].to(device)
-        # question_len = batch['len'].to(device)
-        # labels = batch['labels'].to(device)
-
         question_text = batch['text']
         question_len = batch['len']
         labels = batch['labels']
 
-        # Your code here
-        # model.zero_grad()
         out = model.forward(question_text, question_len)
         loss = criterion(labels, out)
-        # loss.backward()
-        # optimizer.step()
-
-        # compute loss (for display purpose only)
         err += optimizer(labels, out)
 
-        # backward propagation
-        # for layer in reversed(self.layers):
-        #     error = layer.backward_propagation(error, learning_rate)
         model.backprop(loss)
-
-
-
-        # end my code
-
-        # clip_grad_norm_(model.parameters(), args.grad_clipping)
         model.clip_grads(args.grad_clipping)
-        # cpu_loss_copy = loss.cpu()
-        # print_loss_total += cpu_loss_copy.data.numpy()
-        # epoch_loss_total += cpu_loss_copy.data.numpy()
-
-        # if idx % args.checkpoint == 0 and idx > 0:
-        #     print_loss_avg = print_loss_total / args.checkpoint
-
-        #     print('number of steps: %d, loss: %.5f time: %.5f' % (idx, print_loss_avg, time.time()- start))
-        #     print_loss_total = 0
-        #     curr_accuracy = evaluate(dev_data_loader, model)
-        #     if accuracy < curr_accuracy:
-        #         model.save(args.save_model)
-        #         accuracy = curr_accuracy
 
         err /= len(train_data_loader)
         print('epoch %d/%d   error=%f' % (idx+1, args.num_epochs, err))
@@ -320,14 +286,16 @@ class DanModel:
         is_prob: if True, output the softmax of last layer
         """
 
+        torch.set_printoptions(threshold=9999999)
+
         logits = np.zeros(self.n_classes)
 
         # Complete the forward funtion.  First look up the word embeddings.
         text_embed = self.embeddings.get(input_text)
         # Then average them
         encoded = np.sum(text_embed, axis=1)
-        encoded /= np.reshape(text_len, (text_embed.size, -1))
-        logits = self.classifier(encoded)
+        encoded /= np.reshape(text_len, (text_embed.shape[0], -1))
+        logits = self.classifier.predict(encoded)
 
         # Before feeding them through the network
 

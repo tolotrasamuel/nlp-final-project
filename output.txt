@@ -1,7 +1,11 @@
 Loading data...
 Creating Vocab...
-0.5763719081878662 seconds to load data and create vocab
-Classes: ['SPORTS', 'TECHNOLOGY', 'HEALTH', 'SCIENCE', 'ENTERTAINMENT', 'WORLD', 'NATION', 'BUSINESS']
+0.4065876007080078 seconds to load data and create vocab
+Classes: ['HEALTH', 'BUSINESS', 'TECHNOLOGY', 'ENTERTAINMENT', 'NATION', 'WORLD', 'SCIENCE', 'SPORTS']
 Number of classes: 8
-<__main__.DanModel object at 0x7efc88497700>
+<__main__.DanModel object at 0x7f7ff3e97c10>
 start epoch 0
+torch.Size([128, 31]) torch.Size([128])
+(128, 31, 300)
+<simple_embedding_layer.SimpleEmbeddingLayer object at 0x7f7ff3e97cd0>
+(13012, 300) (300,)

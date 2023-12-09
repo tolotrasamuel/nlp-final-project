@@ -6,6 +6,9 @@ class ActivationLayer(Layer):
         self.activation = activation
         self.activation_prime = activation_prime
 
+    def __repr__(self):
+        return f"ActivationLayer"
+
     # returns the activated input
     def forward_propagation(self, input_data):
         self.input = input_data
