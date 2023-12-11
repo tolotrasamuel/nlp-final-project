@@ -100,7 +100,7 @@ net.add(ActivationLayer(softmax, softmax_prime))
 
 
 net.use(mse, mse_prime)
-learning_rate = 0.1
+learning_rate = 0.01
 epochs = 100
 # net.fit(x_train, y_train, epochs=1000, learning_rate=0.1)
 # sample dimension first
@@ -182,7 +182,7 @@ for i in range(epochs):
     err /= samples
     print('epoch %d/%d   error=%f' % (i + 1, epochs, err))
     calculate_acc()
-    save_model(net, f"model_{i}.json")
+    save_model(net, f"model_{i}_lr_{learning_rate}.pkl")
 
 # test
 # out = net.predict(x_train)
