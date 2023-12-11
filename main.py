@@ -32,7 +32,7 @@ for text in texts:
 
 
 
-data_path = "/Users/samuel/PycharmProjects/nlp_class/ast4/data/qanta.train.json"
+data_path = "data/qanta.train.json"
 text_tokens = DataHelper.load_and_tokenize_data(data_path, 1000)
 
 voc, word2ind, ind2word = Word2Ind().load_words(text_tokens)
@@ -73,6 +73,8 @@ for i in range(len(test_dataset)):
 samples = len(x_train)
 y_train = np.array(y_train)
 # training loop
+correct_predictions = 0
+total_samples = 0
 for i in range(epochs):
     err = 0
     for j in range(samples):
@@ -83,6 +85,16 @@ for i in range(epochs):
         # err += net.loss(y_train[j], output)
         loss, gradient = torch_cross_entropy_loss_and_gradient(y_train[j][0], output[0])
         err += loss
+
+        predicted_class = np.argmax(output[0])
+        actual_class = y_train[j][0]
+        if predicted_class == actual_class:
+            correct_predictions += 1
+
+        # print(output[0])
+        # print(y_train[j][0])
+        # if output[0] == y_train[j][0]:
+        #     correct_predictions += 1
 
         # backward propagation
         # error = net.loss_prime(y_train[j], output)
@@ -103,7 +115,10 @@ for i in range(epochs):
 
     # calculate average error on all samples
     err /= samples
-    print('epoch %d/%d   error=%f' % (i + 1, epochs, err))
+    total_samples += samples
+    accuracy = correct_predictions / total_samples
+    print('epoch %d/%d   error=%f   accuracy=%f' % (i + 1, epochs, err, accuracy))
+
 # test
 # out = net.predict(x_train)
 # print(out)

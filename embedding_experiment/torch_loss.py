@@ -4,12 +4,12 @@ from torch.autograd import Variable
 
 def torch_cross_entropy_loss_and_gradient(y_true, y_pred):
     # Assuming y_true and y_pred are your target and prediction tensors
-    y_true = Variable(torch.Tensor(y_true))
-    y_pred = Variable(torch.Tensor(y_pred), requires_grad=True)
+    y_true = torch.tensor(y_true)
+    y_pred = torch.tensor(y_pred, requires_grad=True)
 
     # Calculate the cross-entropy loss
     a = y_pred.unsqueeze(0)
-    b = torch.argmax(y_true).unsqueeze(0)
+    b = y_true
     loss = F.cross_entropy(a, b)
 
     # Backward pass to calculate the gradient
