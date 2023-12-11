@@ -1,0 +1,31 @@
+Loading data from data_new/data_20000.train.csv
+Tokenizing 1000 out of 14000 questions
+Loaded 1000 data from data_new/data_20000.train.csv
+{0: 'HEALTH', 1: 'ENTERTAINMENT', 2: 'TECHNOLOGY', 3: 'SCIENCE', 4: 'WORLD', 5: 'SPORTS', 6: 'BUSINESS', 7: 'NATION'}
+epoch 1.0   error=2.0719207416447736   accuracy=0.161
+[[  6   8  11   2   9   7   6  18]
+ [  0   0   0   0   0   0   0   0]
+ [105  94 129  23 106 111 109  94]
+ [  0   0   0   0   0   0   0   0]
+ [ 10   8   3   4  11   9   8   6]
+ [  5   2   2   0   6   4   6   2]
+ [  7   8   8   2   7   9  10   9]
+ [  1   5   1   1   2   0   5   1]]
+[0.0447761194 0.0000000000 0.8376623377 0.0000000000 0.0780141844 0.0285714286 0.0694444444 0.0076923077]
+[0.0895522388 nan 0.1673151751 nan 0.1864406780 0.1481481481 0.1666666667 0.0625000000]
+[0.0597014925 nan 0.2789189189 nan 0.1100000000 0.0479041916 0.0980392157 0.0136986301]
+[1295, 0, 0, 0, 0, 0, 2775, 0, 4014, 0]
+input: ['In', 'Tennessee', ',', 'Deadly', 'Tornadoes', 'Leave', 'a', 'Swath', 'of', 'Destruction']
+predicted class: WORLD
+[0, 4695, 1160, 4030, 0, 3479, 0, 3692, 0, 0, 637]
+input: ['Giuliani', 'to', 'Go', 'on', 'Trial', 'for', 'Damages', 'in', 'Federal', 'Defamation', 'Case']
+predicted class: TECHNOLOGY
+[0, 0, 1339, 2171, 4695, 0, 0, 80, 2889, 4, 0, 513, 3692, 0]
+input: ['Investor', 'Group', 'Is', 'Said', 'to', 'Value', 'Macy', "'s", 'at', '$', '5.8', 'Billion', 'in', 'Offer']
+predicted class: BUSINESS
+[0, 2460, 543, 0, 0, 0, 1833, 1509, 0, 2375, 0]
+input: ['Genes', 'That', 'Boost', 'Fertility', 'Also', 'Shorten', 'Our', 'Life', ',', 'Study', 'Suggests']
+predicted class: NATION
+[0, 0, 1838, 0, 0, 2845, 0, 0, 3692, 0]
+input: ['Alarm', 'Grows', 'Over', 'Weakened', 'Militaries', 'and', 'Empty', 'Arsenals', 'in', 'Europe']
+predicted class: HEALTH

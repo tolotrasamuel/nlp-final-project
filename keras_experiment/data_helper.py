@@ -13,7 +13,7 @@ prediction_task = "category"
 class DataHelper :
 
     @staticmethod
-    def load_and_tokenize_data(filename: str, limit: Optional[int] = None) -> list[TokenLabel]:
+    def load_and_tokenize_json_data(filename: str, limit: Optional[int] = None) -> list[TokenLabel]:
         # texts = [
         #     ("This is a positive example.", "positive"),
         #     ("Negative sentiment detected here.", "negative"),
@@ -68,5 +68,31 @@ class DataHelper :
 
         print("Overall Counter", overall_counter)
         print(counter)
+        print("Loaded %d data from %s" % (len(tokens_labels), filename))
+        return tokens_labels
+    
+    @staticmethod
+    def load_and_tokenize_csv_data(filename: str, limit: Optional[int] = None) -> list[TokenLabel]:
+        print("Loading data from %s" % filename)
+
+        tokens_labels: list[TokenLabel] = []
+        dataset = FileHelper.read_csv_file(filename)
+        # label is index 0, question is index 4
+        question_labels = dataset[1:]
+        all_count = len(question_labels)
+        if limit is not None and limit > 0:
+            question_labels = question_labels[:limit]
+
+        print(f"Tokenizing {len(question_labels)} out of {all_count} questions")
+
+
+        exclude_labels = []
+        include_labels = []
+        for q in question_labels:
+            if q[0] in exclude_labels:
+                continue
+            if len(include_labels) == 0 or q[0] in include_labels:
+                tokens_labels.append((nltk.word_tokenize(q[4]), q[0]))
+
         print("Loaded %d data from %s" % (len(tokens_labels), filename))
         return tokens_labels

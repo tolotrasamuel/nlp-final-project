@@ -11,6 +11,8 @@ from activations import tanh, tanh_prime, relu_prime, relu, softmax, softmax_pri
 from losses import mse, mse_prime, crossentropyloss, crossentropyloss_prime, cross_entropy_loss_function
 from simple_embedding_layer import SimpleEmbeddingLayer, GlobalAveragePooling1D
 
+from tqdm import tqdm
+
 import nltk as nltk
 
 from keras_experiment.nlp_dataset import QuestionDataset
@@ -25,18 +27,30 @@ texts = [
     ("This is a negative one.", "negative"),
 ]
 
+eval_texts = [
+    "In Tennessee, Deadly Tornadoes Leave a Swath of Destruction",
+    "Giuliani to Go on Trial for Damages in Federal Defamation Case",
+    "Investor Group Is Said to Value Macy's at $5.8 Billion in Offer",
+    "Genes That Boost Fertility Also Shorten Our Life, Study Suggests",
+    "Alarm Grows Over Weakened Militaries and Empty Arsenals in Europe",
+]
+
 text_tokens: list[TokenLabel] = []
 for text in texts:
     t = nltk.word_tokenize(text[0])
     text_tokens.append((t, text[1]))
 
+# qanta dataset
+# data_path = "data/qanta.train.json"
+# text_tokens = DataHelper.load_and_tokenize_json_data(data_path, 1000)
 
-
-data_path = "data/qanta.train.json"
-text_tokens = DataHelper.load_and_tokenize_data(data_path, 1000)
+# news dataset
+data_path = "data_new/data_20000.train.csv"
+text_tokens = DataHelper.load_and_tokenize_csv_data(data_path)
 
 voc, word2ind, ind2word = Word2Ind().load_words(text_tokens)
 class2ind, ind2class = Word2Ind().class_labels(text_tokens)
+print(ind2class)
 
 test_dataset = QuestionDataset(text_tokens, word2ind, class2ind)
 
@@ -73,10 +87,14 @@ for i in range(len(test_dataset)):
 samples = len(x_train)
 y_train = np.array(y_train)
 # training loop
-correct_predictions = 0
 total_samples = 0
+
 for i in range(epochs):
+    correct_predictions = 0
     err = 0
+
+    confusion_matrix = np.zeros((n_classes, n_classes), dtype=int)
+
     for j in range(samples):
         # forward propagation
         output = net.predict_single(x_train[j])
@@ -90,6 +108,8 @@ for i in range(epochs):
         actual_class = y_train[j][0]
         if predicted_class == actual_class:
             correct_predictions += 1
+
+        confusion_matrix[predicted_class][actual_class] += 1
 
         # print(output[0])
         # print(y_train[j][0])
@@ -116,9 +136,38 @@ for i in range(epochs):
     # calculate average error on all samples
     err /= samples
     total_samples += samples
-    accuracy = correct_predictions / total_samples
-    print('epoch %d/%d   error=%f   accuracy=%f' % (i + 1, epochs, err, accuracy))
+    accuracy = correct_predictions / samples
+    precision = np.diag(confusion_matrix) / np.sum(confusion_matrix, axis=0)
+    recall = np.diag(confusion_matrix) / np.sum(confusion_matrix, axis=1)
+    np.set_printoptions(formatter={'float': lambda x: "{0:0.10f}".format(x)}, threshold=1e6, linewidth=1e6)
+    print(f'epoch {(i + 1)/epochs}   error={err}   accuracy={accuracy}')
+    print(confusion_matrix)
+    print(precision)
+    print(recall)
+    f1score = 2 * (precision * recall) / (precision + recall)
+    print(f1score)
+
+    for text in eval_texts:
+        t = nltk.word_tokenize(text)
+        _t = []
+        for word in t:
+            if word in word2ind:
+                _t.append(word2ind[word])
+            else:
+                _t.append(0)
+        print(f'input: {text}')
+        predicted_class = ind2class[np.argmax(net.predict_single(np.array([np.array(_t)]))[0])]
+        print(f'predicted class: {predicted_class}')
 
 # test
-# out = net.predict(x_train)
-# print(out)
+# for text in eval_texts:
+#     t = nltk.word_tokenize(text)
+#     _t = []
+#     for word in t:
+#         if word in word2ind:
+#             _t.append(word2ind[word])
+#         else:
+#             _t.append(0)
+#     print(f'input: {text}')
+#     predicted_class = ind2class[np.argmax(net.predict_single(np.array([np.array(_t)]))[0])]
+#     print(f'predicted class: {predicted_class}')
