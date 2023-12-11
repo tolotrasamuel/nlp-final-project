@@ -1,6 +1,10 @@
 import pickle
 from collections import Counter
 
+# add parent directory to path
+import sys
+
+sys.path.insert(0, '..')
 import numpy as np
 
 from dropout_layer import DropoutLayer
@@ -96,7 +100,7 @@ net.add(ActivationLayer(softmax, softmax_prime))
 
 
 net.use(mse, mse_prime)
-learning_rate = 0.01
+learning_rate = 0.1
 epochs = 100
 # net.fit(x_train, y_train, epochs=1000, learning_rate=0.1)
 # sample dimension first
