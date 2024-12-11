@@ -162,3 +162,19 @@ cython_debug/
 
 keras_experiment/aclImdb/aclImdb_v1.tar.gz
 keras_experiment/aclImdb
+.DS_Store
+.idea/workspace.xml
+.fvm/
+
+node_modules/
+
+
+.DS_Store
+.idea/workspace.xml
+.fvm/
+node_modules/
+
+
+**/__pycache__/
+
+*.json

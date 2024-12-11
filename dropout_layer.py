@@ -37,22 +37,22 @@ import numpy as np
 #         return input_error
 
 class DropoutLayer(Layer):
-	def __init__(self, p):
-		self.p = p
-		self.mask = None
-		self.scale = 1 / (1 - p)
+    def __init__(self, p):
+        super().__init__()
+        self.p = p
+        self.mask = None
+        self.scale = 1 / (1 - p)
 
-	def __repr__(self):
-		return f"DropoutLayer(p={self.p})"
-	
-	def forward_propagation(self, input_data):
-		self.input = input_data
-		self.mask = np.random.binomial(1, 1 - self.p, size=input_data.shape)
-		return self.input * self.mask * self.scale
-	
-	def backward_propagation(self, output_error, learning_rate):
-		return output_error * self.mask * self.scale
+    def forward_propagation(self, input_data):
+        self.input = input_data
+        self.mask = np.random.binomial(1, 1 - self.p, size=input_data.shape)
+        return self.input * self.mask * self.scale
 
-	def clip_grads(self, max_norm):
-		pass
+    def backward_propagation(self, output_error, learning_rate):
+        return output_error * self.mask * self.scale
 
+    def __repr__(self):
+        return f"DropoutLayer(p={self.p})"
+
+    def clip_grads(self, max_norm):
+        pass

@@ -14,16 +14,14 @@ def crossentropyloss(y_true, y_pred):
     return -np.sum(y_true * np.log(y_pred))
 
 
-def cross_entropy_loss_function(Y, P):
+def cross_entropy_loss_function(y_true, y_pred):
     epsilon = 1e-10
-    loss = -np.mean(np.sum(Y * np.log(P + epsilon), axis=1))
+    loss = -np.mean(np.sum(y_true * np.log(y_pred + epsilon), axis=1))
     return loss
 
 
 def crossentropyloss_prime(y_true, y_pred):
     epsilon = 1e-10
-
-    # Calculate the gradient
     gradient = -y_true / (y_pred + epsilon)
-
     return gradient
+

@@ -34,8 +34,6 @@ class Network:
     def predict_single(self, input_data):
         output = input_data
         for layer in self.layers:
-            if self.verbose:
-                print("forward", output.shape, layer)
             output = layer.forward_propagation(output)
         return output
 

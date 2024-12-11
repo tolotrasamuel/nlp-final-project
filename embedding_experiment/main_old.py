@@ -67,36 +67,16 @@ print(counter)
 emb_dim = 50
 n_hidden_units = 50
 nn_dropout = 0.5
-# network
 num_words = len(word2ind)
 n_classes = len(class2ind)
-net = Network(verbose=False)
+net = Network()
 net.add(SimpleEmbeddingLayer(num_embeddings=num_words, embedding_dim=emb_dim))
 net.add(GlobalAveragePooling1D())
-# net.add(FCLayerDetailed(input_size=emb_dim, output_size=n_hidden_units))
-# net.add(ActivationLayer(tanh, tanh_prime))
-# net.add(FCLayer(input_size=emb_dim, output_size=n_hidden_units))
-# net.add(ActivationLayer(tanh, tanh_prime))
-# # net.add(ActivationLayer(tanh, tanh_prime))
-# # net.add(DropoutLayer(nn_dropout))
-# # net.add(FCLayerDetailed(input_size=n_hidden_units, output_size=n_classes))
-# net.add(FCLayer(input_size=n_hidden_units, output_size=n_hidden_units))
-# net.add(ActivationLayer(tanh, tanh_prime))
-# net.add(FCLayer(input_size=n_hidden_units, output_size=n_classes))
-
-# net.add(ActivationLayer(relu, relu_prime))
-# net.add(ActivationLayer(softmax, softmax_prime))
-# net._softmax = softmax
-# train
-
 net.add(FCLayer(input_size=emb_dim, output_size=n_hidden_units))
 net.add(ActivationLayer(relu, relu_prime))
 net.add(DropoutLayer(nn_dropout))
-# net.add(FCLayerDetailed(input_size=n_hidden_units, output_size=n_classes))
 net.add(FCLayer(input_size=n_hidden_units, output_size=n_classes))
-# net.add(ActivationLayer(relu, relu_prime))
 net.add(ActivationLayer(softmax, softmax_prime))
-# net._softmax = softmax
 
 
 net.use(mse, mse_prime)
@@ -150,32 +130,11 @@ for i in range(epochs):
     err = 0
     for j in range(samples):
         print("epoch %d/%d   sample %d/%d" % (i + 1, epochs, j + 1, samples), end="\r")
-        # forward propagation
         output = net.predict_single(x_train[j])
-
-        # compute loss (for display purpose only)
-        # err += net.loss(y_train[j], output)
-        # error = net.loss_prime(y_train[j], output)
-
-        # sent = [ind2word[x] for x in x_train[j][0]]
         loss, gradient = torch_cross_entropy_loss_and_gradient(y_train[j][0], output[0])
         err += loss
         error = np.array([gradient])
-
-
-        # print(err)
-        # if err is nan:
-        # backward propagation
-        if np.isnan(err):
-            print("error is nan")
-        if np.isinf(err):
-            print("error is inf")
         for layer in reversed(net.layers):
-            if net.verbose:
-                print("backward", error.shape, layer)
-            #     check if has nan
-            if np.isnan(error).any():
-                print("error is nan")
             error = layer.backward_propagation(error, learning_rate)
 
     # calculate average error on all samples
